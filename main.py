@@ -238,7 +238,7 @@ async def fun(ctx):
 
 @bot.command()
 async def just(ctx):
-    await ctx.send(f"**```\nПолезные команды\n```**\n```\n{ctx.prefix}avatar \n{ctx.prefix}ping\n{ctx.prefix}eval <ваш код> — выполняет любой код, который вы напишите\n{ctx.prefix}clear <количество сообщений для очистки>\n{ctx.prefix}purge (очистка всех сообщений в канале)\n{ctx.prefix}coin\n{ctx.prefix}giveroles <название роли> (выдает всем участникам роль)\n{ctx.prefix}porn или nsfw\n—————•\n{ctx.prefix}copyserver (копировать сервер)\n{ctx.prefix}doublecopy (копирование половины сервера)\n{ctx.prefix}servers (показывает на каких серверах вы находитесь)\n{ctx.prefix}server (инфа о сервере)\n{ctx.prefix}prefix\n```")
+    await ctx.send(f"**```\nПолезные команды\n```**\n```\n{ctx.prefix}avatar \n{ctx.prefix}ping\n{ctx.prefix}eval <ваш код> — выполняет любой код, который вы напишите\n{ctx.prefix}clear <количество сообщений для очистки>\n{ctx.prefix}purge (очистка всех сообщений в канале)\n{ctx.prefix}coin\n{ctx.prefix}giveroles <название роли> (выдает всем участникам роль)\n{ctx.prefix}porn или nsfw\n—————•\n{ctx.prefix}copyserver (копировать сервер)\n{ctx.prefix}site <название> - открывает сайт с твоим названием\n{ctx.prefix}doublecopy (копирование половины сервера)\n{ctx.prefix}servers (показывает на каких серверах вы находитесь)\n{ctx.prefix}server (инфа о сервере)\n{ctx.prefix}prefix\n```")
 
 
 
@@ -257,6 +257,16 @@ def minify_text(txt):
     else:
         return str(txt)
 
+@bot.command()
+async def site(ctx, *, msg):
+    try:
+        webbrowser.open(f'https://{msg}.com')
+    except:
+        webbrowser.open(f'https://{msg}.ru')
+    await ctx.send(f'```py\n"""\nСайт {msg} открыт\n"""\n```')
+    
+    
+    
 
 @bot.command(aliases = ['eval'])
 async def __eval(ctx, *, content):
