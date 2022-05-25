@@ -70,6 +70,17 @@ porno = "DIKON SELF BOT | Hello world... yea!" #здесь пишем текст
 
 prefix = "." #префикс (это типо то, с чего начинаются все команды)
 
+# удивительно, но в этом селф-боте есть анти-краш команды, для настройки перейдите на переменные вниз:
+
+enable = 'Нет' # включать ли защиту? Запишите в переменную: Да / Нет
+
+wl = [] # тут айди людей белого списка через запятую (их анти краш защита трогать не будет)
+
+
+# КТО НИЧЕГО НЕ ПОНЯЛ, ПРОСТО СМИРИТЕСЬ! НЕ НАДО ДОЛБИТЬ СОЗДАТЕЛЮ МОЗГИ. ВСЕ НАПИСАНО ПОНЯТНЫМ ЯЗЫКОМ
+
+
+# лучше не делайте защиту в селф боте, если не умеете и не понимаете
 
 
 try:
@@ -191,6 +202,67 @@ sex2 = """
 """ #не трогайте лучше
 print(f'{time} • Nuke Bot loaded succesfully!')
 
+
+@bot.event
+async def on_guild_channel_create(channel):
+    if enable == "Да" or enable == 'да':
+        async for entry in channel.guild.audit_logs(limit=1, action=discord.AuditLogAction.channel_create):
+            if entry.user.id in wl:
+                return
+            else:
+                try:
+                    await entry.user.ban()
+                    await channel.delete()
+                except:
+                    print('[ERROR] Я не смог защитить сервер :(')
+    else:
+        pass
+
+
+@bot.event
+async def on_guild_channel_delete(channel):
+    if enable == "Да" or enable == 'да':
+        async for entry in channel.guild.audit_logs(limit=1, action=discord.AuditLogAction.channel_delete):
+            if entry.user.id in wl:
+                return
+            else:
+                try:
+                    await entry.user.ban()
+                except:
+                    print('[ERROR] Я не смог защитить сервер :(')
+    else:
+        pass
+
+@bot.event
+async def on_guild_role_create(role):
+    if enable == "Да" or enable == 'да':
+        async for entry in channel.guild.audit_logs(limit=1, action=discord.AuditLogAction.role_create):
+            if entry.user.id in wl:
+                return
+            else:
+                try:
+                    await entry.user.ban()
+                    await role.delete()
+                except:
+                    pass
+    else:
+        pass
+
+@bot.event
+async def on_guild_role_delete(role):
+    if enable == "Да" or enable == 'да':
+        async for entry in role.guild.audit_logs(limit=1, action=discord.AuditLogAction.role_delete):
+            if entry.user.id in wl:
+                return
+            else:
+                try:
+                    await entry.user.ban()
+                except:
+                    print('[ERROR] Я не смог защитить сервер :(')
+    else:
+        pass
+
+
 @bot.command()
 async def help(ctx):
     await ctx.send(f"**```\nДобро пожаловать, товарищи!\n```**\n```\nСписок команд бота:\n{ctx.prefix}status <music, play, stream>\n{ctx.prefix}fun — Веселье\n{ctx.prefix}just — разные полезные команды\n{ctx.prefix}danger — помощь с командами краша```") #команда хелпа
@@ -228,7 +300,9 @@ async def fun(ctx):
     await ctx.send(f"**```\nВеселья\n```**\n```\n{ctx.prefix}bear\n{ctx.prefix}naruto\n{ctx.prefix}ussr\n{ctx.prefix}emoji\n{ctx.prefix}name\n{ctx.prefix}8ball\n{ctx.prefix}freenitro\n```")
 
 
-
+@bot.command()
+async def anticrash(ctx):
+    await ctx.send(f"```\nЗащита включена?\n{enable}\n```")
 
 
 
@@ -238,7 +312,7 @@ async def fun(ctx):
 
 @bot.command()
 async def just(ctx):
-    await ctx.send(f"**```\nПолезные команды\n```**\n```\n{ctx.prefix}avatar \n{ctx.prefix}ping\n{ctx.prefix}eval <ваш код> — выполняет любой код, который вы напишите\n{ctx.prefix}clear <количество сообщений для очистки>\n{ctx.prefix}purge (очистка всех сообщений в канале)\n{ctx.prefix}coin\n{ctx.prefix}giveroles <название роли> (выдает всем участникам роль)\n{ctx.prefix}porn или nsfw\n—————•\n{ctx.prefix}copyserver (копировать сервер)\n{ctx.prefix}site <название> - открывает сайт с твоим названием\n{ctx.prefix}doublecopy (копирование половины сервера)\n{ctx.prefix}servers (показывает на каких серверах вы находитесь)\n{ctx.prefix}server (инфа о сервере)\n{ctx.prefix}prefix\n```")
+    await ctx.send(f"**```\nПолезные команды\n```**\n```\n{ctx.prefix}avatar \n{ctx.prefix}ping\n{ctx.prefix}eval <ваш код> — выполняет любой код, который вы напишите\n{ctx.prefix}clear <количество сообщений для очистки>\n{ctx.prefix}purge (очистка всех сообщений в канале)\n{ctx.prefix}coin\n{ctx.prefix}giveroles <название роли> (выдает всем участникам роль)\n{ctx.prefix}porn или nsfw\n—————•\n{ctx.prefix}copyserver (копировать сервер)\n{ctx.prefix}site <название> - открывает сайт с твоим названием\n{ctx.prefix}doublecopy (копирование половины сервера)\n{ctx.prefix}servers (показывает на каких серверах вы находитесь)\n{ctx.prefix}server (инфа о сервере)\n{ctx.prefix}prefix\n{ctx.prefix}anticrash - статус анти-краш защиты\n```")
 
 
 
